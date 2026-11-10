@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens. Wealthsimple-inspired restraint:
+  warm neutrals, one confident accent, generous contrast.
+  Values are space-separated RGB channels so Tailwind's
+  `rgb(var(--x) / <alpha>)` opacity modifier works.
+*/
+:root {
+  /* Cool light neutral with an indigo accent */
+  --bg: 242 243 247; /* soft cool gray, faint indigo tint */
+  --surface: 249 250 252; /* light panel, not pure white */
+  --border: 224 226 234;
+  --fg: 27 29 36; /* cool near-black ink */
+  --muted: 101 105 118;
+  --accent: 79 70 229; /* indigo */
+  --accent-fg: 255 255 255;
+
+  --term-bg: 246 247 251;
+}
+
+html.dark {
+  --bg: 11 13 14; /* near-black, faintly cool */
+  --surface: 20 23 26;
+  --border: 34 40 44;
+  --fg: 232 230 225; /* warm off-white */
+  --muted: 138 144 143;
+  --accent: 124 246 198; /* soft mint */
+  --accent-fg: 8 12 11;
+
+  --term-bg: 14 17 19;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: theme("fontFamily.sans");
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Selection uses the accent for a small branded touch */
+::selection {
+  background: rgb(var(--accent) / 0.25);
+}
+
+/*
+  Ambient depth so the page never reads as a flat blank sheet:
+  a faint dot-grid across the page, behind content.
+*/
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgb(var(--fg) / 0.05) 1px,
+    transparent 1.2px
+  );
+  background-size: 24px 24px;
+}
+
+/* Thin, unobtrusive scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border)) transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 999px;
+}
